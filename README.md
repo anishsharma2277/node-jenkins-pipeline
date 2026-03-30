@@ -16,7 +16,7 @@ This repository contains a sample Jenkins pipeline for building and deploying a 
 The application is managed using PM2:
 
 * Runs in cluster mode (`instances: max`)
-* Reloads application to apply updates
+* Uses reload mechanism to apply updates
 * Multiple instances handle incoming requests
 
 ## How to Run Locally
@@ -33,3 +33,7 @@ pm2 start ecosystem.config.js
 * PM2 (`npm install -g pm2`)
 * Jenkins with shell execution enabled
 * Application exposing a `/health` endpoint
+
+## Notes
+
+This setup uses PM2 cluster mode with reload to apply updates while the application continues handling requests.
