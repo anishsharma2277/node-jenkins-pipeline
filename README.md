@@ -1,35 +1,29 @@
-Node.js CI/CD Pipeline with PM2
+# Node.js CI/CD Pipeline with PM2
 
-This repository contains a sample Node.js application with a CI/CD pipeline, designed to demonstrate automated build and deployment using Jenkins and GitHub Actions. The application is managed using PM2 in cluster mode for high availability.
+This repository contains a sample Node.js application with a CI/CD pipeline for building and deploying using Jenkins and GitHub Actions. The application is managed with PM2 in cluster mode for zero-downtime deployments.
 
-Table of Contents
-Pipeline Flow
-Process Management
-Local Setup
-CI/CD with GitHub Actions
-Requirements
-Troubleshooting
-Pipeline Flow
+## Pipeline Flow
 
-The deployment process follows these steps:
+The deployment pipeline follows these steps:
 
-Pull the latest code from the repository
-Install dependencies using npm ci
-Build the application (npm run build)
-Sync build files to the deployment directory
-Start or reload the application using PM2
-Perform a basic health check or version check
-Process Management
+1. Pull the latest code from the repository  
+2. Install dependencies using `npm ci`  
+3. Build the application (`npm run build`)  
+4. Sync files to the deployment directory  
+5. Start or reload the application using PM2  
+6. Perform a basic health/version check  
 
-The application is managed with PM2:
+## Process Management
 
-Runs in cluster mode (instances: max) for load balancing
-Uses reload mechanism to update instances without downtime
-Deploy path is configurable ($DEPLOY_PATH)
-Local Setup
+The application uses PM2 for process management:
 
-To run the application locally:
+- Runs in cluster mode (`instances: max`)  
+- Uses reload mechanism to apply updates without downtime  
+- Handles multiple incoming requests across all instances  
 
+## How to Run Locally
+
+```bash
 # Install dependencies
 npm install
 
@@ -42,39 +36,30 @@ pm2 start ecosystem.config.js
 # Check the version endpoint
 curl http://localhost:3000/version
 
-Endpoints:
 
-/ → Returns a simple success message
-/health → Returns application health status
-/version → Returns current deployed version
-CI/CD with GitHub Actions
 
-This repository includes a GitHub Actions workflow that automatically:
-
-Installs dependencies (npm ci)
-Builds the application (npm run build)
-Syncs files to the deployment directory
-Starts or reloads the application using PM2
-Performs a version check to ensure the latest deployment
-
-Notes for GitHub Actions:
-
+CI/CD Setup
+Jenkins Pipeline: Automates build, deploy, and PM2 reload
+GitHub Actions: Can be used for automated build & deployment
 Ensure the deployment directory is writable by the runner
-For self-hosted runners, use a home directory path (e.g., $HOME/node-app) to avoid permission issues
 Requirements
 Node.js (v18+ recommended) and npm
 PM2 (npm install -g pm2)
-Jenkins (optional, if using Jenkins pipeline)
-GitHub Actions (optional, if using GitHub workflow)
+Jenkins (if using Jenkins CI/CD)
+GitHub Actions (if using workflow)
 Application exposes /health and /version endpoints
 Troubleshooting
 Old version displayed at /version:
 Ensure PM2 reloads the latest dist files
-Delete old PM2 instances: pm2 delete all
+Delete old instances: pm2 delete all
 Restart: pm2 start ecosystem.config.js
-GitHub Actions permission issues:
-Use a writable directory ($HOME/node-app) instead of /var/www
+Permission issues on GitHub Actions:
+Use a writable directory (e.g., $HOME/node-app) instead of /var/www
 Ensure the runner user has write access
 PM2 cluster fails to start:
 Check logs: pm2 logs
-Verify the application runs locally first
+Verify the app runs locally first
+
+
+
+
