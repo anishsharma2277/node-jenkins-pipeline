@@ -38,28 +38,28 @@ curl http://localhost:3000/version
 
 ```
 
-CI/CD Setup
-Jenkins Pipeline: Automates build, deploy, and PM2 reload
-GitHub Actions: Can be used for automated build & deployment
-Ensure the deployment directory is writable by the runner
-Requirements
-Node.js (v18+ recommended) and npm
-PM2 (npm install -g pm2)
-Jenkins (if using Jenkins CI/CD)
-GitHub Actions (if using workflow)
-Application exposes /health and /version endpoints
-Troubleshooting
+# CI/CD Setup
 
-Old version displayed at /version: Ensure PM2 reloads the latest dist files
+## Jenkins Pipeline
+- Automates build, deploy, and PM2 reload
 
+## GitHub Actions
+- Can be used for automated build & deployment
+
+## Requirements
+- Node.js (v18+ recommended) and npm
+- PM2 (`npm install -g pm2`)
+- Jenkins (if using Jenkins CI/CD)
+- GitHub Actions (if using workflow)
+- Application exposes `/health` and `/version` endpoints
+
+## Troubleshooting
+
+### Old version displayed at `/version`
+- Ensure PM2 reloads the latest dist files:
+```bash
 pm2 delete all
 pm2 start ecosystem.config.js
-Permission issues on GitHub Actions: Use a writable directory (e.g., $HOME/node-app) instead of /var/www
-Ensure the runner user has write access
-
-PM2 cluster fails to start: Check logs
-
-pm2 logs
 
 Verify the app runs locally first
 
