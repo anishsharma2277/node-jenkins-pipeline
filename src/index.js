@@ -13,7 +13,7 @@ app.get('/health', (req, res) => {
 });
 
 app.get('/version', (req, res) => {
-  res.json({ version: "v2", message: "Updated deployment 🚀" });
+  res.json({ version: "v4", message: "Updated deployment 🚀" });
 });
 // Start server
 app.listen(PORT, "0.0.0.0", () => {
