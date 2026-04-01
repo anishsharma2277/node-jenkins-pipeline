@@ -7,14 +7,13 @@ on:
 
 jobs:
   build-deploy:
-    runs-on: self-hosted   # Keep this if you want your own machine runner
+    runs-on: self-hosted   # or "ubuntu-latest" for GitHub runners
 
     env:
       APP_NAME: node-app
-      DEPLOY_PATH: ${{ github.workspace }}/deploy   # Deploy inside workspace
+      DEPLOY_PATH: ${{ github.workspace }}/deploy  # dynamic path
 
     steps:
-
       - name: Checkout Code
         uses: actions/checkout@v3
 
@@ -24,7 +23,7 @@ jobs:
           node-version: '18'
 
       - name: Install Dependencies
-        run: npm ci
+        run: npm install
 
       - name: Build App
         run: npm run build
@@ -32,7 +31,7 @@ jobs:
       - name: Install PM2
         run: npm install -g pm2
 
-      - name: Deploy
+      - name: Deploy App
         run: |
           mkdir -p $DEPLOY_PATH
           rsync -av --delete ./ $DEPLOY_PATH/
@@ -49,4 +48,4 @@ jobs:
       - name: Health Check
         run: |
           sleep 5
-          curl -f http://localhost:3000/version
+          curl -f http://localhost:3000/health
